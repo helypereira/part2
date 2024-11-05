@@ -3,8 +3,16 @@ import PersonForm from './components/personForm'
 import Persons from './components/persons'
 import Filter from './components/filter'
 import personService from './services/personService.js'
+import Notification from './components/notification.jsx'
 
 const App = () => {
+
+  const [persons, setPersons] = useState([]) 
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState(null);
+
 
   useEffect(() => {
     personService
@@ -13,11 +21,6 @@ const App = () => {
         setPersons(initialPersons);
       });
   }, []);
-
-  const [persons, setPersons] = useState([]) 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [filter, setFilter] = useState('')
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
@@ -36,8 +39,12 @@ const App = () => {
     if (window.confirm('Are you sure you want to delete this contact?')) {
       personService
         .deleteContact(id)
-        .then(() => {
+        .then((response) => {
           setPersons(persons.filter(person => person.id !== id));
+          setNotification(`${response.name} deleted successfully!`);
+          setTimeout(() => {
+            setNotification(null);
+          },3000);
       });
     }
   };
@@ -58,6 +65,10 @@ const App = () => {
           setPersons(persons.map(person => person.id !== existingContact.id ? person : updatedContact));
           setNewName('');
           setNewNumber('');
+          setNotification(`Contact ${updatedContact.name} updated Successfully. New Number ${updatedContact.number}!`);
+          setTimeout(() => {
+            setNotification(null);
+          },3000);
         })
     }
   } else {
@@ -68,6 +79,10 @@ const App = () => {
         setPersons(prevContact => prevContact.concat(response))
         setNewName('');
         setNewNumber('');
+        setNotification(`${response.name} Added Successfully!`);
+        setTimeout(() => {
+          setNotification(null);
+        },3000);
       })
   }}
 
@@ -76,14 +91,21 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notification}/>
       <h1>Phonebook</h1>
-      <Filter filter={filter} handleInputChange={handleInputChange} />
-      <h2>Add new</h2>
-      <PersonForm addContact={addContact} 
-                  handleInputChange={handleInputChange} 
-                  newName={newName} newNumber={newNumber}/>
-      <h2>Numbers</h2>
-      <Persons persons={filterPersons} onDelete={handleDelete}/>
+      <div className='container'> 
+        <div className='new'>
+          <h2 className='subtitle'>Add New Contact</h2>
+          <PersonForm addContact={addContact} 
+                      handleInputChange={handleInputChange} 
+                      newName={newName} newNumber={newNumber}/>
+        </div>
+        <div className='contactsSection'>
+          <h2 className='subtitle'>Contacts</h2>
+          <Filter filter={filter} handleInputChange={handleInputChange} />
+          <Persons persons={filterPersons} onDelete={handleDelete}/>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,15 +1,16 @@
 /* eslint-disable react/prop-types */
+import '../styles/global.css';
 
 const PersonForm = ({addContact, handleInputChange, newName, newNumber}) => (
-        <form onSubmit={addContact}>
+        <form onSubmit={addContact} className="formulario">
+
+            Name: <input onChange={handleInputChange} value={newName} name="name"/>
+
+
+            Phone Number: <input onChange={handleInputChange} value={newNumber} name="number"/>
+
         <div>
-            name: <input onChange={handleInputChange} value={newName} name="name"/>
-        </div>
-        <div>
-            number: <input onChange={handleInputChange} value={newNumber} name="number"/>
-        </div>
-        <div>
-        <button type="submit" >add</button>
+        <button type="submit"><span className="material-symbols-outlined"> person_add</span>Add Contact</button>
         </div>
         </form>
     
