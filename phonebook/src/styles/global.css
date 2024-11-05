@@ -26,6 +26,17 @@ h1{
     color: rgb(0, 0, 0);
     font-weight: bold;
     padding: 10px;
+    width: 20%;
+    text-align: center;
+    font-size: 22px;
+    border-radius: 100px;
+}
+
+.unsuccessful {
+    background-color: rgb(255, 13, 78);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    padding: 10px;
     text-align: center;
 }
 
@@ -95,7 +106,7 @@ button {
 input {
     margin-bottom: 10px;
     width: 100%;
-    padding: 10px 3px;
+    padding: 10px 5px;
     
 }
 
@@ -173,3 +184,4 @@ span.material-symbols-outlined {
         width: 100%;
     }
 }
+

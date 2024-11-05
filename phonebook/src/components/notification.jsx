@@ -1,12 +1,13 @@
 /* eslint-disable react/prop-types */
 import '../styles/global.css'
-const Notification = ({ message }) => {
+const Notification = ({ message, classStyle}) => {
+
     if (message === null) {
         return null
     }
 
     return (
-    <div className="successful">
+    <div className={classStyle}>
         {message}
     </div>
     )

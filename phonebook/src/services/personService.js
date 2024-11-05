@@ -7,6 +7,7 @@ const getAll = () => {
         axios
         .get(baseURL)
         .then(response => response.data)
+        
     )
 }
 

@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState({message: null, classStyle: null});
 
 
   useEffect(() => {
@@ -19,7 +19,11 @@ const App = () => {
       .getAll()
       .then(initialPersons => {
         setPersons(initialPersons);
-      });
+      })
+      .catch((error) => {
+        console.error(error);
+        setNotification({message:'Error feching contacts', classStyle:'unsuccessful'})
+      })
   }, []);
 
   const handleInputChange = (event) => {
@@ -41,13 +45,19 @@ const App = () => {
         .deleteContact(id)
         .then((response) => {
           setPersons(persons.filter(person => person.id !== id));
-          setNotification(`${response.name} deleted successfully!`);
+          setNotification({ message: `${response.name} deleted succssfully!`, classStyle: 'successful' });
+          //setNotification(`${response.name} deleted successfully!`);
           setTimeout(() => {
-            setNotification(null);
+            setNotification({ message: null, classStyle: null });
           },3000);
-      });
+      })
+      .catch(() => {
+        setNotification({message:'Deleting contact', classStyle:'unsuccessful'})
+      })
     }
   };
+
+
   const addContact = (event)=>{
     event.preventDefault();
     const existingContact = persons.find(person => person.name === newName);
@@ -65,10 +75,13 @@ const App = () => {
           setPersons(persons.map(person => person.id !== existingContact.id ? person : updatedContact));
           setNewName('');
           setNewNumber('');
-          setNotification(`Contact ${updatedContact.name} updated Successfully. New Number ${updatedContact.number}!`);
+          setNotification({ message: `Contact ${updatedContact.name} updated succssfully!`, classStyle: 'successful' });
           setTimeout(() => {
-            setNotification(null);
-          },3000);
+            setNotification({ message: null, classStyle: null });
+          }, 3000)
+          .catch(() => {
+            setNotification({message:'Error updating contact', classStyle:'unsuccessful'})
+          })
         })
     }
   } else {
@@ -79,10 +92,13 @@ const App = () => {
         setPersons(prevContact => prevContact.concat(response))
         setNewName('');
         setNewNumber('');
-        setNotification(`${response.name} Added Successfully!`);
+        setNotification({ message: `${response.name} added succssfully!`, classStyle: 'successful' });
         setTimeout(() => {
-          setNotification(null);
-        },3000);
+          setNotification({ message: null, classStyle: null });
+        }, 3000)
+        .catch(() => {
+          setNotification({message:'Error adding contact', classStyle:'unsuccessful'})
+        })
       })
   }}
 
@@ -91,7 +107,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={notification}/>
+      <Notification message={notification.message} classStyle={notification.classStyle} />
       <h1>Phonebook</h1>
       <div className='container'> 
         <div className='new'>
