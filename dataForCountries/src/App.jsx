@@ -9,6 +9,7 @@ const App = () => {
   const [countryList, setCountryList] = useState([])
 
 
+
 useEffect(() => {
   axios.get('https://studies.cs.helsinki.fi/restcountries/api/all')
   .then(response => {
@@ -26,7 +27,7 @@ useEffect(() => {
     //infoCountries.forEach(country => console.log(country.flag.png))
 
   })
-  .catch(error => console.log(error))
+  .catch(error => console.log(error));
   }, []);
 
 //const paises = axios.get('https://studies.cs.helsinki.fi/restcountries/api/name/spain').then(response => console.log(response.data.name['common']))
@@ -59,6 +60,7 @@ useEffect(() => {
         <Input value={value} onChange={handleChange} />
       </form>
         <Country countries={country} onClickAct={handleClick}/>
+
     </div>
   )
 }

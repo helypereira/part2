@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import Button from "./button";
+import Weather from "./weather";
 
 const Country = ({ countries,onClickAct }) => {
     const message = countries.length > 6 && 'Too many matches, please refine your search.';
@@ -14,8 +15,9 @@ const Country = ({ countries,onClickAct }) => {
             <div>
                 {countries.map((country, index) => (
                     <div key={index}>
-                        <span>{country.name}</span>                        
-                        <Button onClick={()=>onClickAct(country.name)} buttonName='Show'/>
+                        <span>{country.name}</span>
+                        {countries.length > 1 && <Button onClick={()=>onClickAct(country.name)} buttonName='Show'/> }                        
+                        
                     </div>
                 ))}
             </div>
@@ -34,6 +36,7 @@ const Country = ({ countries,onClickAct }) => {
                             )) }
                         </ul>
                         <img src={country.flags.png} alt={country.flag}/>
+                        <Weather countryName={country.name} />
                     </div>
                 ))}
             </div>)}
