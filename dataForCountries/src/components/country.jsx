@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
+import Button from "./button";
 
-const Country = ({ countries }) => {
+const Country = ({ countries,onClickAct }) => {
     const message = countries.length > 6 && 'Too many matches, please refine your search.';
 
     return (
@@ -13,7 +14,8 @@ const Country = ({ countries }) => {
             <div>
                 {countries.map((country, index) => (
                     <div key={index}>
-                        <span>{country.name}</span>
+                        <span>{country.name}</span>                        
+                        <Button onClick={()=>onClickAct(country.name)} buttonName='Show'/>
                     </div>
                 ))}
             </div>
